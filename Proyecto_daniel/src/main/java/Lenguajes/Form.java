@@ -26,7 +26,7 @@ public class Form extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        stat = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
 
@@ -39,7 +39,7 @@ public class Form extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("jLabel1");
+        stat.setText("jLabel1");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -52,7 +52,7 @@ public class Form extends javax.swing.JFrame {
                         .addComponent(jButton1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(163, 163, 163)
-                        .addComponent(jLabel1)))
+                        .addComponent(stat)))
                 .addContainerGap(178, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -61,7 +61,7 @@ public class Form extends javax.swing.JFrame {
                 .addGap(103, 103, 103)
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel1)
+                .addComponent(stat)
                 .addContainerGap(114, Short.MAX_VALUE))
         );
 
@@ -132,9 +132,9 @@ public class Form extends javax.swing.JFrame {
               u.setSueldo((float)celdaSueldo.getNumericCellValue());
               p.guardarUsuario(u);
         }
-        estatusExcel.setText("Se guardaron" + indiceUltima+" filas");
+        stat.setText("Se guardaron" + indiceUltima+" filas");
      }catch(Exception e){
-       estatusExcel.setText(e.getMessage());  
+       stat.setText(e.getMessage());  
      }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -174,9 +174,9 @@ public class Form extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel stat;
     // End of variables declaration//GEN-END:variables
 }
