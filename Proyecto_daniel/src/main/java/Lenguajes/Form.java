@@ -29,10 +29,13 @@ public class Form extends javax.swing.JFrame {
         stat = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
+        all = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabla = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("jButton1");
+        jButton1.setText("Examinar...");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -53,7 +56,7 @@ public class Form extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(163, 163, 163)
                         .addComponent(stat)))
-                .addContainerGap(178, Short.MAX_VALUE))
+                .addContainerGap(632, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -62,28 +65,56 @@ public class Form extends javax.swing.JFrame {
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
                 .addComponent(stat)
-                .addContainerGap(114, Short.MAX_VALUE))
+                .addContainerGap(243, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Cargar", jPanel1);
 
-        jButton2.setText("jButton2");
+        jButton2.setText("Ver Registros");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        all.setText("jLabel1");
+
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null}
+            },
+            new String [] {
+                "Nombre", "E-mail", "Sueldo"
+            }
+        ));
+        jScrollPane1.setViewportView(tabla);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(153, 153, 153)
-                .addComponent(jButton2)
-                .addContainerGap(169, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addComponent(all))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 633, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2))))
+                .addContainerGap(214, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(122, 122, 122)
+                .addGap(30, 30, 30)
                 .addComponent(jButton2)
-                .addContainerGap(127, Short.MAX_VALUE))
+                .addGap(35, 35, 35)
+                .addComponent(all)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(78, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Ver Registrado", jPanel2);
@@ -92,7 +123,7 @@ public class Form extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 870, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,36 +138,51 @@ public class Form extends javax.swing.JFrame {
         JFileChooser selector=new JFileChooser();
         selector.showOpenDialog(this);
     File f=    selector.getSelectedFile();
-       String nombreArchivo=f.getName();
-       long tamano=f.length();
-      // estatusExcel.setText("Nombre de archivo:"+nombreArchivo+
-       //        " tamaño:"+tamano+" bytes");
-       
+       String archivo=f.getName();
+       long tam=f.length();
+      
    Workbook libro=    WorkbookFactory.create(f);
-     Sheet hojaldra=libro.getSheetAt(0);
-    int indiceUltima= hojaldra.getLastRowNum();
-         Row fila= hojaldra.getRow(1);
-         Cell celda=    fila.getCell(2);
-         double valor=     celda.getNumericCellValue();
-   // estatusExcel.setText("l suelod de este usuario es:"+valor);
-         
+     Sheet ex=libro.getSheetAt(0);
+    int indice= ex.getLastRowNum();
+         Row fil=ex.getRow(1);
+         Cell celda=fil.getCell(2);
+         double valor=celda.getNumericCellValue();
+   
         Persis p=new Persis();
-        for(int i=1;i<=indiceUltima;i++){
+        for(int i=1;i<=indice;i++){
             Usuario u=new Usuario();
-            Row filaActual=hojaldra.getRow(i);
-           Cell celdaNombre=     filaActual.getCell(0);
-           Cell celdaEmail=filaActual.getCell(1);
-           Cell celdaSueldo=filaActual.getCell(2);
+            Row act=ex.getRow(i);
+           Cell celdaNombre=act.getCell(0);
+           Cell celdaEmail=act.getCell(1);
+           Cell celdaSueldo=act.getCell(2);
               u.setNombre(celdaNombre.getStringCellValue());
               u.setEmail(celdaEmail.getStringCellValue());
               u.setSueldo((float)celdaSueldo.getNumericCellValue());
               p.guardarUsuario(u);
         }
-        stat.setText("Se guardaron" + indiceUltima+" filas");
+        stat.setText("Guardadas" +indice+" filas con éxito");
      }catch(Exception e){
        stat.setText(e.getMessage());  
      }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            Persis p=new Persis();
+            all.setText("Usuarios guardados"+   p.buscar().size());
+            tabla.setModel(new DefaultTableModel(new String[]{"Nombre", "E-mail","Sueldo"}, p.buscar().size()));
+            int i=0;
+            for(Usuario u: p.buscar()){
+               tabla.setValueAt(u.getNombre(), i, 0);
+               tabla.setValueAt(u.getEmail(), i, 1);
+               tabla.setValueAt(u.getSueldo(), i, 2);
+                
+               i++;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Form.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
    
     public static void main(String args[]) {
@@ -172,11 +218,14 @@ public class Form extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel all;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel stat;
+    private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 }
